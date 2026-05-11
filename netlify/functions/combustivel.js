@@ -36,7 +36,19 @@ exports.handler = async (event) => {
       return {
         statusCode: 200,
         headers: CORS_HEADERS,
-        body: JSON.stringify({ error: 'A API da SEFAZ/AL retornou uma resposta vazia. Tente novamente mais tarde.' }),
+        body: JSON.stringify({ error: 'A API da SEFAZ/AL retornou uma resposta vazia (HTTP ' + response.status + '). Tente novamente.' }),
+      };
+    }
+    try {
+      JSON.parse(text);
+    } catch (e) {
+      console.error('SEFAZ non-JSON response (HTTP ' + response.status + '):', text.slice(0, 300));
+      return {
+        statusCode: 200,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          error: 'O servico da SEFAZ/AL retornou uma resposta invalida (HTTP ' + response.status + '). Verifique se o AppToken esta correto e tente novamente.',
+        }),
       };
     }
     return { statusCode: response.status, headers: CORS_HEADERS, body: text };
