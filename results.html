@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Resultados de pesquisa de precos - Price Alagoas">
+<title>Resultados - Price Alagoas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue-900:#0B2354;--blue-700:#1440B3;--blue-600:#1A4FD6;--blue-500:#1B5EF7;
+  --blue-100:#D6E4FF;--blue-50:#EEF3FF;
+  --orange:#F97316;--orange-dark:#EA580C;
+  --green:#059669;--green-light:#ECFDF5;
+  --amber:#D97706;--amber-light:#FFFBEB;
+  --text:#0F1929;--text-2:#3D5166;--text-3:#7A92A8;
+  --border:#D4E2F4;--border-light:#EAF1FB;
+  --bg:#F0F5FF;--surface:#FFF;
+  --shadow:0 2px 8px rgba(15,25,41,.08),0 0 1px rgba(15,25,41,.06);
+  --shadow-md:0 4px 16px rgba(15,25,41,.10),0 0 1px rgba(15,25,41,.06);
+  --shadow-lg:0 12px 32px rgba(15,25,41,.12),0 0 1px rgba(15,25,41,.06);
+  --r:12px;--r-lg:20px;--r-xl:28px;--r-full:9999px;
+  --font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6}
+button{cursor:pointer;font-family:var(--font-body);border:none;outline:none}
+a{color:var(--blue-600);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-light);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:34px;height:34px;background:var(--blue-600);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-head);font-weight:800;font-size:15px}
+.nav-logo-text{font-family:var(--font-head);font-weight:700;font-size:17px;color:var(--text)}
+.nav-logo-text span{color:var(--blue-600)}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-badge{background:var(--blue-50);color:var(--blue-600);font-size:11px;font-weight:600;padding:2px 10px;border-radius:var(--r-full);border:1px solid var(--blue-100)}
+
+/* SEARCH SUMMARY BAR */
+.search-summary{background:var(--surface);border-bottom:1px solid var(--border-light);padding:12px 24px}
+.summary-inner{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--blue-600);font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap;padding:6px 14px;border-radius:var(--r-full);border:1.5px solid var(--blue-100);background:var(--blue-50);transition:background .15s,border-color .15s;flex-shrink:0}
+.back-link:hover{background:var(--blue-100);border-color:var(--blue-500);text-decoration:none}
+.summary-info{flex:1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+.summary-query{font-family:var(--font-head);font-weight:700;color:var(--text);font-size:15px}
+.summary-sep{color:var(--text-3);font-size:13px}
+.summary-details{font-size:13px;color:var(--text-3)}
+
+/* RESULTS */
+#results{max-width:820px;margin:0 auto;padding:32px 24px 80px}
+.results-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.results-title{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--text)}
+.results-meta{font-size:13px;color:var(--text-3)}
+.sort-tag{display:flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--green);background:var(--green-light);border-radius:var(--r-full);padding:4px 12px;white-space:nowrap}
+
+/* CARDS */
+.result-card{background:var(--surface);border-radius:var(--r-lg);border:1.5px solid var(--border-light);padding:20px;margin-bottom:12px;transition:box-shadow .2s,border-color .2s;position:relative;overflow:hidden}
+.result-card:hover{box-shadow:var(--shadow-md);border-color:var(--blue-100)}
+.result-card.cheapest{border-color:var(--green);background:linear-gradient(180deg,#F0FDF8 0%,#fff 60%)}
+.result-card.cheapest::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--green)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}
+.card-left{flex:1;min-width:0}
+.card-badges{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.badge-cheapest{background:var(--green);color:#fff;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:var(--r-full)}
+.badge-rank{background:var(--border);color:var(--text-2);font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:var(--r-full)}
+.store-name{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.store-address{font-size:13px;color:var(--text-2);line-height:1.4}
+.store-phone{font-size:12.5px;color:var(--text-3);margin-top:2px}
+.product-desc{font-size:13px;color:var(--text-2);margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);font-style:italic}
+.card-right{text-align:right;flex-shrink:0}
+.price-value{font-family:var(--font-head);font-size:26px;font-weight:800;color:var(--text);line-height:1;white-space:nowrap}
+.price-value.is-cheap{color:var(--green)}
+.price-diff{font-size:12px;color:var(--amber);font-weight:600;margin-top:3px;white-space:nowrap}
+.price-date{font-size:11.5px;color:var(--text-3);margin-top:5px}
+.price-bar-wrap{height:4px;background:var(--border-light);border-radius:var(--r-full);overflow:hidden;margin-top:14px}
+.price-bar{height:100%;border-radius:var(--r-full);transition:width .5s ease}
+
+/* STATES */
+.state-box{padding:72px 24px;text-align:center}
+.state-icon{font-size:52px;margin-bottom:16px}
+.state-title{font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
+.state-sub{font-size:14.5px;color:var(--text-2);max-width:380px;margin:0 auto;line-height:1.6}
+
+/* SKELETON */
+.sk-card{background:var(--surface);border-radius:var(--r-lg);border:1.5px solid var(--border-light);padding:20px;margin-bottom:12px}
+.sk-line{border-radius:6px;margin-bottom:10px;animation:shimmer 1.4s infinite;background:linear-gradient(90deg,#eaeef5 25%,#f0f5ff 50%,#eaeef5 75%);background-size:200% 100%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:28px}
+.page-btn{height:38px;min-width:38px;padding:0 14px;border-radius:var(--r);border:1.5px solid var(--border);font-size:14px;font-weight:500;color:var(--text-2);background:var(--surface);transition:all .15s;font-family:var(--font-body);cursor:pointer}
+.page-btn:hover:not([disabled]){background:var(--blue-50);border-color:#4F7EF8;color:var(--blue-600)}
+.page-btn[disabled]{opacity:.4;cursor:not-allowed}
+.page-info{font-size:13.5px;color:var(--text-3);padding:0 8px}
+
+/* DISCLAIMER */
+.disclaimer{margin-top:28px;padding:14px 16px;background:var(--amber-light);border-radius:var(--r);border:1px solid #FDE68A;font-size:13px;color:#92400E;display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+
+/* FOOTER */
+footer{background:var(--blue-900);color:rgba(255,255,255,.55);padding:28px 24px;text-align:center;font-size:13px}
+footer a{color:rgba(255,255,255,.8)}
+footer strong{color:#fff;font-weight:600}
+
+.hidden{display:none !important}
+
+@media(max-width:600px){
+  .summary-inner{gap:10px}
+  .card-top{flex-direction:column}
+  .card-right{text-align:left;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .price-value{font-size:22px}
+  .nav-badge{display:none}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">PA</div>
+    <span class="nav-logo-text"><span>Price</span> Alagoas</span>
+  </a>
+  <div class="nav-links">
+    <span class="nav-badge">Dados reais SEFAZ/AL</span>
+    <a href="https://economizaalagoas.sefaz.al.gov.br" target="_blank" style="font-size:13.5px;font-weight:500;color:var(--text-2);padding:6px 12px;border-radius:9999px;transition:background .15s,color .15s">Portal Oficial</a>
+  </div>
+</nav>
+
+<div class="search-summary">
+  <div class="summary-inner">
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Nova pesquisa
+    </a>
+    <div class="summary-info">
+      <span id="summary-query" class="summary-query"></span>
+      <span class="summary-sep" id="summary-sep">&middot;</span>
+      <span id="summary-details" class="summary-details"></span>
+    </div>
+  </div>
+</div>
+
+<section id="results">
+  <div id="state-loading">
+    <div id="skeleton-cards"></div>
+  </div>
+  <div id="state-error" class="hidden">
+    <div class="state-box">
+      <div class="state-icon">&#9888;&#65039;</div>
+      <div class="state-title">Erro na pesquisa</div>
+      <div class="state-sub" id="error-msg">Nao foi possivel conectar. Tente novamente.</div>
+    </div>
+  </div>
+  <div id="state-empty" class="hidden">
+    <div class="state-box">
+      <div class="state-icon">&#128237;</div>
+      <div class="state-title">Nenhum resultado encontrado</div>
+      <div class="state-sub">Tente ampliar o periodo de busca, mudar a localizacao ou usar termos mais gerais.</div>
+    </div>
+  </div>
+  <div id="state-results" class="hidden">
+    <div class="results-header">
+      <div>
+        <div class="results-title" id="results-title">Resultados</div>
+        <div class="results-meta" id="results-meta"></div>
+      </div>
+      <div class="sort-tag">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="m3 16 4 4 4-4M7 20V4M21 8l-4-4-4 4M17 4v16"/>
+        </svg>
+        Menor preco primeiro
+      </div>
+    </div>
+    <div id="cards-container"></div>
+    <div id="pagination" class="pagination"></div>
+    <div class="disclaimer">
+      <span>&#8505;&#65039;</span>
+      <span>Os precos refletem <strong>vendas reais</strong> registradas em NF-e/NFC-e emitidas em Alagoas.
+      O estabelecimento nao e obrigado a praticar o mesmo preco registrado. Dados da <strong>SEFAZ/AL</strong>.</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Desenvolvido com dados publicos do projeto <strong>Economiza Alagoas</strong> &mdash; Secretaria de Fazenda do Estado de Alagoas</p>
+  <p style="margin-top:6px">Dados fornecidos pela <a href="https://economizaalagoas.sefaz.al.gov.br" target="_blank">SEFAZ/AL</a> &middot; Uso livre para fins particulares e comerciais</p>
+</footer>
+
+<script>
+var P=new URLSearchParams(location.search);
+var TAB=P.get('tab')||'produto';
+var LOC=P.get('loc')||'cidade';
+var DIAS=parseInt(P.get('dias'))||7;
+var PAGE=parseInt(P.get('page'))||1;
+var FUELS={1:'Gasolina Comum',2:'Gasolina Aditivada',3:'Alcool (Etanol)',4:'Diesel Comum',5:'Diesel S10',6:'GNV'};
+
+function fmt(v){return 'R$ '+Number(v).toFixed(2).replace('.',',');}
+function timeSince(ds){var d=new Date(ds),diff=Math.floor((Date.now()-d.getTime())/86400000);if(diff<=0)return 'hoje';if(diff===1)return 'ontem';return 'ha '+diff+' dias';}
+function fmtAddr(e){if(!e)return '';var p=[];if(e.nomeLogradouro)p.push(e.nomeLogradouro+(e.numeroImovel?', '+e.numeroImovel:''));if(e.bairro)p.push(e.bairro);if(e.municipio)p.push(e.municipio);return p.join(' - ');}
+function barCol(r){if(r<0.15)return '#059669';if(r<0.4)return '#10B981';if(r<0.65)return '#F59E0B';return '#F97316';}
+
+function showState(id){
+  ['state-loading','state-error','state-empty','state-results'].forEach(function(s){
+    document.getElementById(s).classList.toggle('hidden',s!==id);
+  });
+}
+
+function skelCards(n){
+  return Array.from({length:n},function(){
+    return '<div class="sk-card"><div style="display:flex;justify-content:space-between;gap:16px"><div style="flex:1"><div class="sk-line" style="height:14px;width:60%;margin-bottom:10px"></div><div class="sk-line" style="height:12px;width:80%;margin-bottom:10px"></div><div class="sk-line" style="height:12px;width:40%"></div></div><div class="sk-line" style="height:28px;width:90px;margin-bottom:0"></div></div><div class="sk-line" style="height:4px;margin-top:16px;width:100%;margin-bottom:0"></div></div>';
+  }).join('');
+}
+
+function buildPayload(pg){
+  var estab;
+  if(LOC==='cidade'){
+    estab={municipio:{codigoIBGE:P.get('municipio')}};
+  }else if(LOC==='gps'){
+    estab={geolocalizacao:{latitude:parseFloat(P.get('lat')),longitude:parseFloat(P.get('lng')),raio:parseInt(P.get('raio'))}};
+  }else if(LOC==='cnpj'){
+    estab={individual:{cnpj:P.get('cnpj')}};
+  }
+  if(TAB==='produto'){
+    return {produto:{descricao:P.get('q')},estabelecimento:estab,dias:DIAS,pagina:pg,registrosPorPagina:50};
+  }
+  return {produto:{tipoCombustivel:parseInt(P.get('fuel'))},estabelecimento:estab,dias:DIAS,pagina:pg,registrosPorPagina:50};
+}
+
+function renderCards(items){
+  if(!items||!items.length)return '';
+  var prices=items.map(function(i){return i.produto.venda.valorVenda;});
+  var mn=Math.min.apply(null,prices),mx=Math.max.apply(null,prices),rng=mx-mn||1;
+  return items.map(function(item,idx){
+    var price=item.produto.venda.valorVenda,ratio=(price-mn)/rng,bw=Math.round(10+ratio*80),bc=barCol(ratio);
+    var cheap=idx===0,diff=price-mn;
+    var sn=(item.estabelecimento.nomeFantasia||item.estabelecimento.razaoSocial||'').trim();
+    var addr=fmtAddr(item.estabelecimento.endereco||item.estabelecimento.endereço);
+    var phone=item.estabelecimento.telefone,ds=timeSince(item.produto.venda.dataVenda);
+    var desc=item.produto.descricao,unit=item.produto.unidadeMedida||'';
+    return '<div class="result-card'+(cheap?' cheapest':'')+'">'+
+      '<div class="card-top">'+
+        '<div class="card-left">'+
+          '<div class="card-badges">'+(cheap?'<span class="badge-cheapest">&#127942; Mais barato</span>':'<span class="badge-rank">#'+(idx+1)+'</span>')+'</div>'+
+          '<div class="store-name" title="'+sn+'">'+sn+'</div>'+
+          '<div class="store-address">'+addr+'</div>'+
+          (phone?'<div class="store-phone">Tel: '+phone+'</div>':'')+
+          '<div class="product-desc">'+desc+(unit?' &middot; '+unit:'')+'</div>'+
+        '</div>'+
+        '<div class="card-right">'+
+          '<div class="price-value'+(cheap?' is-cheap':'')+'">'+fmt(price)+'</div>'+
+          (!cheap&&diff>0.004?'<div class="price-diff">+'+fmt(diff)+' vs menor</div>':'')+
+          '<div class="price-date">'+ds+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="price-bar-wrap"><div class="price-bar" style="width:'+bw+'%;background:'+bc+'"></div></div>'+
+    '</div>';
+  }).join('');
+}
+
+function renderPag(cur,tot){
+  var el=document.getElementById('pagination');
+  if(tot<=1){el.innerHTML='';return;}
+  el.innerHTML=
+    '<button class="page-btn"'+(cur<=1?' disabled':'')+' onclick="doFetch('+(cur-1)+')">&#8592; Anterior</button>'+
+    '<span class="page-info">Pagina '+cur+' de '+tot+'</span>'+
+    '<button class="page-btn"'+(cur>=tot?' disabled':'')+' onclick="doFetch('+(cur+1)+')">Proxima &#8594;</button>';
+}
+
+function updateSummary(){
+  var qEl=document.getElementById('summary-query');
+  var dEl=document.getElementById('summary-details');
+  if(TAB==='produto'){
+    qEl.textContent='"'+(P.get('q')||'')+'"';
+    document.title='"'+(P.get('q')||'')+'" - Price Alagoas';
+  }else{
+    var fuelName=FUELS[parseInt(P.get('fuel'))]||'Combustivel';
+    qEl.textContent=fuelName;
+    document.title=fuelName+' - Price Alagoas';
+  }
+  var locStr='';
+  if(LOC==='cidade') locStr='em '+(P.get('municipioNome')||'Municipio selecionado');
+  else if(LOC==='gps') locStr='proximo a voce ('+P.get('raio')+' km)';
+  else if(LOC==='cnpj') locStr='CNPJ '+P.get('cnpj');
+  dEl.textContent=locStr+' · ultimos '+DIAS+(DIAS===1?' dia':' dias');
+}
+
+function doFetch(pg){
+  showState('state-loading');
+  document.getElementById('skeleton-cards').innerHTML=skelCards(5);
+  window.scrollTo({top:0,behavior:'smooth'});
+  var newP=new URLSearchParams(P);
+  newP.set('page',pg);
+  history.replaceState(null,'','results.html?'+newP.toString());
+
+  fetch('/api/'+(TAB==='produto'?'produto':'combustivel'),{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(buildPayload(pg))
+  })
+  .then(function(r){
+    return r.text().then(function(txt){
+      if(!txt||!txt.trim())throw new Error('Resposta vazia da API. Verifique sua conexao e tente novamente.');
+      try{return JSON.parse(txt);}
+      catch(e){throw new Error('Resposta inesperada da API. Tente novamente.');}
+    });
+  })
+  .then(function(data){
+    if(data.message||data.error){
+      document.getElementById('error-msg').textContent=data.message||data.error;
+      showState('state-error');
+      return;
+    }
+    if(!data.conteudo||!data.conteudo.length){showState('state-empty');return;}
+    var sorted=data.conteudo.slice().sort(function(a,b){return a.produto.venda.valorVenda-b.produto.venda.valorVenda;});
+    var totalPaginas=data.totalPaginas||1;
+    var title=TAB==='produto'?'"'+(P.get('q'))+'"':(FUELS[parseInt(P.get('fuel'))]||'Combustivel');
+    document.getElementById('results-title').textContent='Resultados para '+title;
+    document.getElementById('results-meta').textContent=(data.totalRegistros||0).toLocaleString('pt-BR')+' venda(s) · Pagina '+pg+' de '+totalPaginas;
+    document.getElementById('cards-container').innerHTML=renderCards(sorted);
+    renderPag(pg,totalPaginas);
+    showState('state-results');
+  })
+  .catch(function(e){
+    document.getElementById('error-msg').textContent=e.message||'Erro de conexao. Tente novamente.';
+    showState('state-error');
+  });
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  if(!P.get('tab')){window.location.href='index.html';return;}
+  updateSummary();
+  doFetch(PAGE);
+});
+</script>
+</body>
+</html>

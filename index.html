@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Price Alagoas - Compare precos de produtos e combustiveis em Alagoas com dados reais de NF-e.">
+<title>Price Alagoas - Compare precos em Alagoas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue-900:#0B2354;--blue-700:#1440B3;--blue-600:#1A4FD6;--blue-500:#1B5EF7;
+  --blue-100:#D6E4FF;--blue-50:#EEF3FF;
+  --orange:#F97316;--orange-dark:#EA580C;
+  --green:#059669;--green-light:#ECFDF5;
+  --amber:#D97706;--amber-light:#FFFBEB;
+  --red-light:#FEF2F2;
+  --text:#0F1929;--text-2:#3D5166;--text-3:#7A92A8;
+  --border:#D4E2F4;--border-light:#EAF1FB;
+  --bg:#F0F5FF;--surface:#FFF;
+  --shadow:0 2px 8px rgba(15,25,41,.08),0 0 1px rgba(15,25,41,.06);
+  --shadow-md:0 4px 16px rgba(15,25,41,.10),0 0 1px rgba(15,25,41,.06);
+  --shadow-lg:0 12px 32px rgba(15,25,41,.12),0 0 1px rgba(15,25,41,.06);
+  --r:12px;--r-lg:20px;--r-xl:28px;--r-full:9999px;
+  --font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6}
+button{cursor:pointer;font-family:var(--font-body);border:none;outline:none}
+select,input{font-family:var(--font-body);outline:none}
+a{color:var(--blue-600);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-light);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:34px;height:34px;background:var(--blue-600);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-head);font-weight:800;font-size:15px}
+.nav-logo-text{font-family:var(--font-head);font-weight:700;font-size:17px;color:var(--text)}
+.nav-logo-text span{color:var(--blue-600)}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-link{font-size:13.5px;font-weight:500;color:var(--text-2);padding:6px 12px;border-radius:var(--r-full);transition:background .15s,color .15s;text-decoration:none}
+.nav-link:hover{background:var(--blue-50);color:var(--blue-600);text-decoration:none}
+.nav-badge{background:var(--blue-50);color:var(--blue-600);font-size:11px;font-weight:600;padding:2px 10px;border-radius:var(--r-full);border:1px solid var(--blue-100)}
+
+/* HERO */
+#hero{background:linear-gradient(155deg,#0B2354 0%,#1440B3 45%,#1A6FE8 100%);padding:56px 24px 72px;position:relative;overflow:hidden}
+#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 15% 85%,rgba(249,115,22,.15) 0%,transparent 50%),radial-gradient(circle at 85% 15%,rgba(255,255,255,.04) 0%,transparent 50%)}
+.hero-inner{max-width:720px;margin:0 auto;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);font-size:12.5px;font-weight:500;padding:5px 14px;border-radius:var(--r-full);margin-bottom:20px}
+.badge-dot{width:7px;height:7px;background:#4ADE80;border-radius:50%}
+h1{font-family:var(--font-head);font-size:clamp(28px,5vw,46px);font-weight:800;color:#fff;line-height:1.15;letter-spacing:-1px;margin-bottom:12px}
+h1 em{color:#FB923C;font-style:normal}
+.hero-sub{color:rgba(255,255,255,.7);font-size:16px;margin-bottom:36px;max-width:500px}
+
+/* SEARCH CARD */
+.search-card{background:var(--surface);border-radius:var(--r-xl);padding:28px;box-shadow:var(--shadow-lg);border:1px solid var(--border-light)}
+.search-tabs{display:flex;gap:6px;margin-bottom:24px;background:var(--bg);border-radius:var(--r);padding:4px}
+.tab-btn{flex:1;padding:9px;border-radius:10px;font-size:14px;font-weight:600;color:var(--text-2);background:transparent;transition:all .2s;font-family:var(--font-body)}
+.tab-btn.active{background:var(--surface);color:var(--blue-600);box-shadow:0 1px 2px rgba(15,25,41,.06)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+.search-row{display:flex;gap:10px;margin-bottom:16px}
+.search-wrap{flex:1;position:relative}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-3);pointer-events:none;font-size:17px}
+.search-input{width:100%;height:48px;padding:0 16px 0 44px;border:1.5px solid var(--border);border-radius:var(--r);font-size:15px;color:var(--text);background:var(--surface);transition:border-color .2s,box-shadow .2s}
+.search-input:focus{border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(27,94,247,.12)}
+.search-input::placeholder{color:var(--text-3)}
+.btn-search{height:48px;padding:0 24px;background:var(--orange);color:#fff;border-radius:var(--r);font-size:15px;font-weight:600;white-space:nowrap;transition:background .15s,transform .1s;display:flex;align-items:center;gap:8px}
+.btn-search:hover{background:var(--orange-dark)}
+.btn-search:active{transform:scale(.98)}
+
+.options-row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
+.option-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:140px}
+.option-label{font-size:11.5px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.6px}
+.option-select{height:40px;padding:0 10px;border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;color:var(--text);background:var(--surface);cursor:pointer;transition:border-color .2s}
+.option-select:focus{border-color:var(--blue-500)}
+
+.loc-mode{display:flex;gap:4px}
+.loc-btn{padding:7px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text-2);background:transparent;border:1.5px solid var(--border);transition:all .15s;font-family:var(--font-body)}
+.loc-btn.active{background:var(--blue-50);border-color:#4F7EF8;color:var(--blue-600)}
+
+.loc-panel{display:none;margin-top:12px}
+.loc-panel.active{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+
+.fuel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px}
+.fuel-btn{padding:10px 6px;border-radius:var(--r);border:1.5px solid var(--border);font-size:13px;font-weight:500;color:var(--text-2);background:var(--surface);transition:all .15s;text-align:center;font-family:var(--font-body);line-height:1.3;cursor:pointer}
+.fuel-btn.active{background:var(--blue-50);border-color:var(--blue-500);color:#1440B3}
+.fuel-icon{font-size:20px;display:block;margin-bottom:3px}
+
+.gps-box{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--blue-50);border-radius:var(--r);border:1px solid var(--blue-100);font-size:13.5px;color:#1440B3;flex-wrap:wrap;transition:background .2s,border-color .2s}
+.btn-gps{height:36px;padding:0 14px;background:var(--blue-600);color:#fff;border-radius:var(--r);font-size:13px;font-weight:600;transition:background .15s;font-family:var(--font-body);white-space:nowrap}
+.btn-gps:hover{background:#1440B3}
+
+.cnpj-input{height:40px;padding:0 12px;border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;color:var(--text);background:var(--surface);width:240px;transition:border-color .2s}
+.cnpj-input:focus{border-color:var(--blue-500)}
+
+/* RESULTS */
+#results{max-width:820px;margin:0 auto;padding:40px 24px 80px}
+.results-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.results-title{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--text)}
+.results-meta{font-size:13px;color:var(--text-3)}
+.sort-tag{display:flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--green);background:var(--green-light);border-radius:var(--r-full);padding:4px 12px;white-space:nowrap}
+
+/* CARDS */
+.result-card{background:var(--surface);border-radius:var(--r-lg);border:1.5px solid var(--border-light);padding:20px;margin-bottom:12px;transition:box-shadow .2s,border-color .2s;position:relative;overflow:hidden}
+.result-card:hover{box-shadow:var(--shadow-md);border-color:var(--blue-100)}
+.result-card.cheapest{border-color:var(--green);background:linear-gradient(180deg,#F0FDF8 0%,#fff 60%)}
+.result-card.cheapest::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--green)}
+
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}
+.card-left{flex:1;min-width:0}
+.card-badges{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.badge-cheapest{background:var(--green);color:#fff;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:var(--r-full)}
+.badge-rank{background:var(--border);color:var(--text-2);font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:var(--r-full)}
+.store-name{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.store-address{font-size:13px;color:var(--text-2);line-height:1.4}
+.store-phone{font-size:12.5px;color:var(--text-3);margin-top:2px}
+.product-desc{font-size:13px;color:var(--text-2);margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);font-style:italic}
+
+.card-right{text-align:right;flex-shrink:0}
+.price-value{font-family:var(--font-head);font-size:26px;font-weight:800;color:var(--text);line-height:1;white-space:nowrap}
+.price-value.is-cheap{color:var(--green)}
+.price-diff{font-size:12px;color:var(--amber);font-weight:600;margin-top:3px;white-space:nowrap}
+.price-date{font-size:11.5px;color:var(--text-3);margin-top:5px}
+.price-unit{font-size:11.5px;color:var(--text-3);text-transform:uppercase;margin-top:2px}
+
+.price-bar-wrap{height:4px;background:var(--border-light);border-radius:var(--r-full);overflow:hidden;margin-top:14px}
+.price-bar{height:100%;border-radius:var(--r-full);transition:width .5s ease}
+
+/* STATES */
+.state-box{padding:72px 24px;text-align:center}
+.state-icon{font-size:52px;margin-bottom:16px}
+.state-title{font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
+.state-sub{font-size:14.5px;color:var(--text-2);max-width:380px;margin:0 auto;line-height:1.6}
+
+/* SKELETON */
+.sk-card{background:var(--surface);border-radius:var(--r-lg);border:1.5px solid var(--border-light);padding:20px;margin-bottom:12px}
+.sk-line{border-radius:6px;margin-bottom:10px;animation:shimmer 1.4s infinite;background:linear-gradient(90deg,#eaeef5 25%,#f0f5ff 50%,#eaeef5 75%);background-size:200% 100%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:28px}
+.page-btn{height:38px;min-width:38px;padding:0 14px;border-radius:var(--r);border:1.5px solid var(--border);font-size:14px;font-weight:500;color:var(--text-2);background:var(--surface);transition:all .15s;font-family:var(--font-body);cursor:pointer}
+.page-btn:hover:not([disabled]){background:var(--blue-50);border-color:#4F7EF8;color:var(--blue-600)}
+.page-btn[disabled]{opacity:.4;cursor:not-allowed}
+.page-info{font-size:13.5px;color:var(--text-3);padding:0 8px}
+
+/* DISCLAIMER */
+.disclaimer{margin-top:28px;padding:14px 16px;background:var(--amber-light);border-radius:var(--r);border:1px solid #FDE68A;font-size:13px;color:#92400E;display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+
+/* ABOUT */
+.about-strip{background:var(--surface);border-top:1px solid var(--border-light);padding:36px 24px}
+.about-inner{max-width:820px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.about-item{text-align:center;padding:0 12px}
+.about-icon{font-size:28px;margin-bottom:8px}
+.about-title{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.about-text{font-size:13px;color:var(--text-2);line-height:1.5}
+
+/* FOOTER */
+footer{background:var(--blue-900);color:rgba(255,255,255,.55);padding:28px 24px;text-align:center;font-size:13px}
+footer a{color:rgba(255,255,255,.8)}
+footer strong{color:#fff;font-weight:600}
+
+.hidden{display:none !important}
+
+@media(max-width:600px){
+  .fuel-grid{grid-template-columns:repeat(2,1fr)}
+  .search-row{flex-direction:column}
+  .btn-search{width:100%;justify-content:center}
+  .about-inner{grid-template-columns:1fr}
+  .card-top{flex-direction:column}
+  .card-right{text-align:left;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .price-value{font-size:22px}
+  .options-row{flex-direction:column}
+  .option-group{min-width:100%;flex:unset}
+  .nav-badge{display:none}
+  #hero{padding:36px 20px 52px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">PA</div>
+    <span class="nav-logo-text"><span>Price</span> Alagoas</span>
+  </a>
+  <div class="nav-links">
+    <span class="nav-badge">Dados reais SEFAZ/AL</span>
+    <a href="https://economizaalagoas.sefaz.al.gov.br" target="_blank" class="nav-link">Portal Oficial</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="badge-dot"></span>&nbsp;Alimentado por dados reais de NF-e e NFC-e</div>
+    <h1>Encontre o menor preco <em>em Alagoas</em></h1>
+    <p class="hero-sub">Compare precos de produtos e combustiveis em milhares de estabelecimentos em todo o estado.</p>
+
+    <div class="search-card">
+      <div class="search-tabs">
+        <button class="tab-btn active" data-tab="produto">&#x1F6D2; Produtos</button>
+        <button class="tab-btn" data-tab="combustivel">&#x26FD; Combustiveis</button>
+      </div>
+
+      <!-- PRODUTO TAB -->
+      <div class="tab-panel active" id="panel-produto">
+        <div class="search-row">
+          <div class="search-wrap">
+            <span class="search-icon">&#128269;</span>
+            <input type="text" id="produto-input" class="search-input"
+              placeholder="Ex: leite integral, arroz agulhinha, frango..."
+              autocomplete="off" maxlength="50">
+          </div>
+          <button class="btn-search" id="btn-produto">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            Pesquisar
+          </button>
+        </div>
+        <div class="options-row">
+          <div class="option-group">
+            <span class="option-label">Localizacao</span>
+            <div class="loc-mode">
+              <button class="loc-btn active" data-loc="cidade" data-target="produto">Cidade</button>
+              <button class="loc-btn" data-loc="gps" data-target="produto">GPS</button>
+              <button class="loc-btn" data-loc="cnpj" data-target="produto">Loja</button>
+            </div>
+          </div>
+          <div class="option-group">
+            <span class="option-label">Periodo</span>
+            <select class="option-select" id="produto-dias">
+              <option value="1">Hoje (1 dia)</option>
+              <option value="3">3 dias</option>
+              <option value="5">5 dias</option>
+              <option value="7" selected>7 dias</option>
+              <option value="10">10 dias</option>
+            </select>
+          </div>
+        </div>
+        <div class="loc-panel active" id="loc-produto-cidade">
+          <div class="option-group" style="max-width:280px;flex:unset">
+            <span class="option-label">Municipio</span>
+            <select class="option-select" id="produto-municipio"></select>
+          </div>
+        </div>
+        <div class="loc-panel" id="loc-produto-gps">
+          <div class="gps-box" id="gps-box-produto" style="flex:1">
+            <span id="gps-text-produto">Clique para obter sua localizacao atual</span>
+            <button class="btn-gps" id="btn-gps-produto">Usar GPS</button>
+          </div>
+          <div class="option-group" style="max-width:150px;flex:unset">
+            <span class="option-label">Raio (km)</span>
+            <select class="option-select" id="produto-raio">
+              <option value="2">2 km</option>
+              <option value="5" selected>5 km</option>
+              <option value="10">10 km</option>
+              <option value="15">15 km</option>
+            </select>
+          </div>
+        </div>
+        <div class="loc-panel" id="loc-produto-cnpj">
+          <div class="option-group" style="flex:unset">
+            <span class="option-label">CNPJ do Estabelecimento</span>
+            <input type="text" class="cnpj-input" id="produto-cnpj"
+              placeholder="00.000.000/0000-00" maxlength="18">
+          </div>
+        </div>
+      </div>
+
+      <!-- COMBUSTIVEL TAB -->
+      <div class="tab-panel" id="panel-combustivel">
+        <div style="margin-bottom:16px">
+          <span class="option-label" style="display:block;margin-bottom:10px">Tipo de Combustivel</span>
+          <div class="fuel-grid">
+            <button class="fuel-btn active" data-fuel="1"><span class="fuel-icon">&#128664;</span>Gasolina Comum</button>
+            <button class="fuel-btn" data-fuel="2"><span class="fuel-icon">&#10024;</span>Gasolina Aditivada</button>
+            <button class="fuel-btn" data-fuel="3"><span class="fuel-icon">&#127807;</span>Alcool Etanol</button>
+            <button class="fuel-btn" data-fuel="4"><span class="fuel-icon">&#128665;</span>Diesel Comum</button>
+            <button class="fuel-btn" data-fuel="5"><span class="fuel-icon">&#128142;</span>Diesel S10</button>
+            <button class="fuel-btn" data-fuel="6"><span class="fuel-icon">&#128168;</span>GNV</button>
+          </div>
+        </div>
+        <div class="options-row">
+          <div class="option-group">
+            <span class="option-label">Localizacao</span>
+            <div class="loc-mode">
+              <button class="loc-btn active" data-loc="cidade" data-target="combustivel">Cidade</button>
+              <button class="loc-btn" data-loc="gps" data-target="combustivel">GPS</button>
+              <button class="loc-btn" data-loc="cnpj" data-target="combustivel">Posto</button>
+            </div>
+          </div>
+          <div class="option-group">
+            <span class="option-label">Periodo</span>
+            <select class="option-select" id="comb-dias">
+              <option value="1">Hoje (1 dia)</option>
+              <option value="3">3 dias</option>
+              <option value="5" selected>5 dias</option>
+              <option value="7">7 dias</option>
+              <option value="10">10 dias</option>
+            </select>
+          </div>
+        </div>
+        <div class="loc-panel active" id="loc-combustivel-cidade">
+          <div class="option-group" style="max-width:280px;flex:unset">
+            <span class="option-label">Municipio</span>
+            <select class="option-select" id="comb-municipio"></select>
+          </div>
+        </div>
+        <div class="loc-panel" id="loc-combustivel-gps">
+          <div class="gps-box" id="gps-box-comb" style="flex:1">
+            <span id="gps-text-comb">Clique para obter sua localizacao atual</span>
+            <button class="btn-gps" id="btn-gps-comb">Usar GPS</button>
+          </div>
+          <div class="option-group" style="max-width:150px;flex:unset">
+            <span class="option-label">Raio (km)</span>
+            <select class="option-select" id="comb-raio">
+              <option value="2">2 km</option>
+              <option value="5" selected>5 km</option>
+              <option value="10">10 km</option>
+              <option value="15">15 km</option>
+            </select>
+          </div>
+        </div>
+        <div class="loc-panel" id="loc-combustivel-cnpj">
+          <div class="option-group" style="flex:unset">
+            <span class="option-label">CNPJ do Estabelecimento</span>
+            <input type="text" class="cnpj-input" id="comb-cnpj"
+              placeholder="00.000.000/0000-00" maxlength="18">
+          </div>
+        </div>
+        <div style="margin-top:16px">
+          <button class="btn-search" id="btn-combustivel" style="width:100%;justify-content:center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            Pesquisar Precos
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="about-strip">
+  <div class="about-inner">
+    <div class="about-item">
+      <div class="about-icon">&#128202;</div>
+      <div class="about-title">Dados Reais</div>
+      <div class="about-text">Precos obtidos de notas fiscais eletronicas emitidas em Alagoas</div>
+    </div>
+    <div class="about-item">
+      <div class="about-icon">&#128260;</div>
+      <div class="about-title">Atualizacao Continua</div>
+      <div class="about-text">Informacoes com as vendas mais recentes dos ultimos 10 dias</div>
+    </div>
+    <div class="about-item">
+      <div class="about-icon">&#127963;&#65039;</div>
+      <div class="about-title">Fonte Oficial</div>
+      <div class="about-text">API publica do projeto Economiza Alagoas da SEFAZ/AL</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Desenvolvido com dados publicos do projeto <strong>Economiza Alagoas</strong> &mdash; Secretaria de Fazenda do Estado de Alagoas</p>
+  <p style="margin-top:6px">Dados fornecidos pela <a href="https://economizaalagoas.sefaz.al.gov.br" target="_blank">SEFAZ/AL</a> &middot; Uso livre para fins particulares e comerciais</p>
+</footer>
+<script>
+var MUN=[
+  {c:'2700102',n:'Agua Branca'},{c:'2700201',n:'Anadia'},{c:'2700300',n:'Arapiraca'},
+  {c:'2700409',n:'Atalaia'},{c:'2700508',n:'Barra de Santo Antonio'},{c:'2700607',n:'Barra de Sao Miguel'},
+  {c:'2700706',n:'Batalha'},{c:'2700805',n:'Belem'},{c:'2700904',n:'Belo Monte'},
+  {c:'2701001',n:'Boca da Mata'},{c:'2701100',n:'Branquinha'},{c:'2701209',n:'Cacimbinhas'},
+  {c:'2701308',n:'Cajueiro'},{c:'2701357',n:'Campestre'},{c:'2701407',n:'Campo Alegre'},
+  {c:'2701506',n:'Campo Grande'},{c:'2701605',n:'Canapi'},{c:'2701704',n:'Capela'},
+  {c:'2701803',n:'Carneiros'},{c:'2701902',n:'Cha Preta'},{c:'2702009',n:'Coite do Noia'},
+  {c:'2702108',n:'Colonia Leopoldina'},{c:'2702207',n:'Coqueiro Seco'},{c:'2702306',n:'Coruripe'},
+  {c:'2702355',n:'Craibas'},{c:'2702405',n:'Delmiro Gouveia'},{c:'2702504',n:'Dois Riachos'},
+  {c:'2702553',n:'Estrela de Alagoas'},{c:'2702603',n:'Feira Grande'},{c:'2702702',n:'Feliz Deserto'},
+  {c:'2702801',n:'Flexeiras'},{c:'2702900',n:'Girau do Ponciano'},{c:'2703007',n:'Ibateguara'},
+  {c:'2703106',n:'Igaci'},{c:'2703205',n:'Igreja Nova'},{c:'2703304',n:'Inhapi'},
+  {c:'2703403',n:'Jacares dos Homens'},{c:'2703502',n:'Jacuipe'},{c:'2703601',n:'Japaratinga'},
+  {c:'2703700',n:'Jaramataia'},{c:'2703759',n:'Jequia da Praia'},{c:'2703809',n:'Joaquim Gomes'},
+  {c:'2703908',n:'Jundia'},{c:'2704005',n:'Junqueiro'},{c:'2704104',n:'Lagoa da Canoa'},
+  {c:'2704203',n:'Limoeiro de Anadia'},{c:'2704302',n:'Maceio'},{c:'2704401',n:'Major Isidoro'},
+  {c:'2704906',n:'Mar Vermelho'},{c:'2704500',n:'Maragogi'},{c:'2704609',n:'Maravilha'},
+  {c:'2704708',n:'Marechal Deodoro'},{c:'2704807',n:'Maribondo'},{c:'2705002',n:'Mata Grande'},
+  {c:'2705101',n:'Matriz de Camaragibe'},{c:'2705200',n:'Messias'},{c:'2705309',n:'Minador do Negrao'},
+  {c:'2705408',n:'Monteiropolis'},{c:'2705507',n:'Murici'},{c:'2705606',n:'Novo Lino'},
+  {c:'2705705',n:'Olho dAgua das Flores'},{c:'2705804',n:'Olho dAgua do Casado'},
+  {c:'2705903',n:'Olho dAgua Grande'},{c:'2706000',n:'Olivenca'},{c:'2706109',n:'Ouro Branco'},
+  {c:'2706208',n:'Palestina'},{c:'2706307',n:'Palmeira dos Indios'},{c:'2706406',n:'Pao de Acucar'},
+  {c:'2706422',n:'Pariconha'},{c:'2706448',n:'Paripueira'},{c:'2706505',n:'Passo de Camaragibe'},
+  {c:'2706604',n:'Paulo Jacinto'},{c:'2706703',n:'Penedo'},{c:'2706802',n:'Piacabucu'},
+  {c:'2706901',n:'Pilar'},{c:'2707008',n:'Pindoba'},{c:'2707107',n:'Piranhas'},
+  {c:'2707206',n:'Poco das Trincheiras'},{c:'2707305',n:'Porto Calvo'},{c:'2707404',n:'Porto de Pedras'},
+  {c:'2707503',n:'Porto Real do Colegio'},{c:'2707602',n:'Quebrangulo'},{c:'2707701',n:'Rio Largo'},
+  {c:'2707800',n:'Roteiro'},{c:'2707909',n:'Santa Luzia do Norte'},{c:'2708006',n:'Santana do Ipanema'},
+  {c:'2708105',n:'Santana do Mundau'},{c:'2708204',n:'Sao Bras'},{c:'2708303',n:'Sao Jose da Laje'},
+  {c:'2708402',n:'Sao Jose da Tapera'},{c:'2708501',n:'Sao Luis do Quitunde'},
+  {c:'2708600',n:'Sao Miguel dos Campos'},{c:'2708709',n:'Sao Miguel dos Milagres'},
+  {c:'2708808',n:'Sao Sebastiao'},{c:'2708907',n:'Satuba'},{c:'2708956',n:'Senador Rui Palmeira'},
+  {c:'2709004',n:'Tanque dArca'},{c:'2709103',n:'Taquarana'},{c:'2709152',n:'Teotonio Vilela'},
+  {c:'2709202',n:'Traipu'},{c:'2709301',n:'Uniao dos Palmares'},{c:'2709400',n:'Vicosa'}
+];
+var S={tab:'produto',locMode:{produto:'cidade',combustivel:'cidade'},gps:{produto:null,combustivel:null},fuelType:1};
+
+function fillSelect(el,list){
+  el.innerHTML='<option value="">Selecione um municipio</option>';
+  list.forEach(function(m){var o=document.createElement('option');o.value=m.c;o.textContent=m.n;if(m.c==='2704302')o.selected=true;el.appendChild(o);});
+}
+
+function cleanCNPJ(v){return v.replace(/\D/g,'');}
+
+function doSearch(){
+  var p=new URLSearchParams();
+  p.set('tab',S.tab);
+  var tgt=S.tab==='produto'?'produto':'combustivel';
+  if(S.tab==='produto'){
+    var q=document.getElementById('produto-input').value.trim();
+    if(q.length<3){alert('Digite pelo menos 3 caracteres.');return;}
+    p.set('q',q);
+    p.set('dias',document.getElementById('produto-dias').value);
+  }else{
+    p.set('fuel',S.fuelType);
+    p.set('dias',document.getElementById('comb-dias').value);
+  }
+  var mode=S.locMode[tgt];
+  p.set('loc',mode);
+  try{
+    if(mode==='cidade'){
+      var sel=document.getElementById(tgt==='produto'?'produto-municipio':'comb-municipio');
+      if(!sel.value)throw new Error('Selecione um municipio para pesquisar.');
+      p.set('municipio',sel.value);
+      var mun=MUN.find(function(m){return m.c===sel.value;});
+      if(mun)p.set('municipioNome',mun.n);
+    }else if(mode==='gps'){
+      var g=S.gps[tgt];
+      if(!g)throw new Error('Localizacao GPS nao disponivel. Clique em "Usar GPS" primeiro.');
+      p.set('lat',g.lat);p.set('lng',g.lng);
+      var raioEl=document.getElementById(tgt==='produto'?'produto-raio':'comb-raio');
+      p.set('raio',raioEl?raioEl.value:5);
+    }else if(mode==='cnpj'){
+      var inp=document.getElementById(tgt==='produto'?'produto-cnpj':'comb-cnpj');
+      var cn=cleanCNPJ(inp?inp.value:'');
+      if(cn.length<8)throw new Error('Informe o CNPJ completo (minimo 8 digitos).');
+      p.set('cnpj',cn);
+    }
+  }catch(e){alert(e.message);return;}
+  window.location.href='results.html?'+p.toString();
+}
+
+function getGPS(tgt){
+  var tid=tgt==='produto'?'gps-text-produto':'gps-text-comb';
+  var bid=tgt==='produto'?'gps-box-produto':'gps-box-comb';
+  document.getElementById(tid).textContent='Obtendo localizacao...';
+  navigator.geolocation.getCurrentPosition(
+    function(pos){S.gps[tgt]={lat:pos.coords.latitude,lng:pos.coords.longitude};document.getElementById(tid).textContent='Localizado: '+pos.coords.latitude.toFixed(4)+', '+pos.coords.longitude.toFixed(4);var b=document.getElementById(bid);b.style.background='#ECFDF5';b.style.borderColor='#6EE7B7';b.style.color='#065F46';},
+    function(err){document.getElementById(tid).textContent='Erro: '+(err.code===1?'Permissao negada':'Indisponivel');document.getElementById(bid).style.background='#FEF2F2';}
+  );
+}
+
+function setLoc(tgt,mode){
+  S.locMode[tgt]=mode;
+  document.querySelectorAll('[data-loc][data-target="'+tgt+'"]').forEach(function(b){b.classList.toggle('active',b.dataset.loc===mode);});
+  ['cidade','gps','cnpj'].forEach(function(m){var el=document.getElementById('loc-'+tgt+'-'+m);if(el)el.classList.toggle('active',m===mode);});
+}
+
+function maskCNPJ(el){
+  el.addEventListener('input',function(){
+    var v=el.value.replace(/\D/g,'').slice(0,14);
+    if(v.length>12)v=v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2}).*/,'$1.$2.$3/$4-$5');
+    else if(v.length>8)v=v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4}).*/,'$1.$2.$3/$4');
+    else if(v.length>5)v=v.replace(/^(\d{2})(\d{3})(\d{0,3}).*/,'$1.$2.$3');
+    else if(v.length>2)v=v.replace(/^(\d{2})(\d{0,3}).*/,'$1.$2');
+    el.value=v;
+  });
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  fillSelect(document.getElementById('produto-municipio'),MUN);
+  fillSelect(document.getElementById('comb-municipio'),MUN);
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.addEventListener('click',function(){S.tab=b.dataset.tab;document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.toggle('active',x===b);});document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.toggle('active',p.id==='panel-'+S.tab);});});});
+  document.querySelectorAll('.loc-btn').forEach(function(b){b.addEventListener('click',function(){setLoc(b.dataset.target,b.dataset.loc);});});
+  document.getElementById('btn-gps-produto').addEventListener('click',function(){getGPS('produto');});
+  document.getElementById('btn-gps-comb').addEventListener('click',function(){getGPS('combustivel');});
+  document.querySelectorAll('.fuel-btn').forEach(function(b){b.addEventListener('click',function(){S.fuelType=parseInt(b.dataset.fuel);document.querySelectorAll('.fuel-btn').forEach(function(x){x.classList.toggle('active',x===b);});});});
+  document.getElementById('btn-produto').addEventListener('click',function(){doSearch();});
+  document.getElementById('btn-combustivel').addEventListener('click',function(){doSearch();});
+  document.getElementById('produto-input').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+  maskCNPJ(document.getElementById('produto-cnpj'));
+  maskCNPJ(document.getElementById('comb-cnpj'));
+});
+</script>
+</body>
+</html>
